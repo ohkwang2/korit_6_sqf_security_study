@@ -1,16 +1,20 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:auth_db
+    url: jdbc:h2:file:./data/auth_db
     driver-class-name: org.h2.Driver
     username: sa
     password:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update  #최초 한 번은 create 해주고, 그 뒤에 update로 바꿔서 서버 재실행해주어야 함
     show-sql: true
 
   h2:
     console:
       enabled: true
       path: /h2-console
+
+#jwt 비밀번호는 절대 유출되면 안 됨
+jwt:
+  secret: d5c0c66000675dedbdf591ee23ea081fd0a50df3d662474242f9e6b942ce8491467fc6257e14925ab201d1ef84bb3cf2f28a9a53e4749a77b1b9ea35c5de4e4a495fe5b7edaa3bc5b3c030e3d3e73759149a753ca65300a78c48ae885ebfd6316af43455d4e87f794869e6a0c11287ddc04cbb45ae94be24b8d7f433ba3dd898f825f459486e0db6179e655c417ad8732abb468ee913214daa8b9c284cdff2191b755206fd430203e81f8c1798098d4da9f797a825f14dd51da267e0c64d810dbad5c7f77b29bc3ac3ca211422e582b0d0e193a331f76a319db7a25621af496303d080353dbb2df7aeb4fd49474116524fb4689735aed4e148f492f86441023f

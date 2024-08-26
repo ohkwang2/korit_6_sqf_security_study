@@ -1,17 +1,13 @@
-package com.study.SpringSecurity.dto.request;
+package com.study.SpringSecurityMybatis.dto.request;
 
-import com.study.SpringSecurity.domain.entity.User;
+import com.study.SpringSecurityMybatis.entity.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Pattern;
 
 @Data
-// signup(@Valid) <- 요기 valid 어노테이션이 있으면 바로 여기로 넘어와서 정규식 실행함
-// 에러가 있으면 fieldErrors를 생성하고, BindingResult에 담아줌
 public class ReqSignupDto {
-
     // 정규식은 문자열만 비교 가능 (숫자는 다르게 처리함)
     @Pattern(regexp = "^[a-z0-9]{6,}$", message = "사용자 이름은 6자 이상의 영소문자, 숫자 조합이어야 합니다.")
     private String username;
@@ -28,4 +24,5 @@ public class ReqSignupDto {
                 .name(name)
                 .build();
     }
+
 }
