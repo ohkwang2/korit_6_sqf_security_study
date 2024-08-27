@@ -10,4 +10,10 @@
             (default, #{userId}, #{roleId});
 
     </insert>
+    <delete id="deleteByUserId">
+        delete from
+            user_roles
+        where
+            user_id = #{userId}
+    </delete>
 </mapper>

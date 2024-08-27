@@ -10,7 +10,6 @@
             role
         values
             (default, #{name});
-
     </insert>
     <select id="findByName" resultType="com.study.SpringSecurityMybatis.entity.Role">
         select

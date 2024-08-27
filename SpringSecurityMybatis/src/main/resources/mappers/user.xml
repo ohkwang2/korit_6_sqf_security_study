@@ -12,14 +12,70 @@
             (default, #{username}, #{password}, #{name});
 
     </insert>
-    <select id="findByUsername" resultType="com.study.SpringSecurityMybatis.entity.User">
-        select
-            id,
-            username,
-            password,
-            name
-        from
+    <delete id="deleteByUserId">
+        delete from
             user
-        where username = #{username}
+        where
+            id = #{userId}
+    </delete>
+
+    <resultMap id="userResultMap" type="com.study.SpringSecurityMybatis.entity.User">
+        <!--    property 해당 id의 변수 명, column <- 쿼리 결과    -->
+        <id property="id" column="user_id"/>
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <!--    컬렉션으로 데이터를 들고올 때    -->
+        <collection property="userRoles" javaType="java.util.Set" resultMap="userRolesResultMap" />
+    </resultMap>
+
+    <resultMap id="userRolesResultMap" type="com.study.SpringSecurityMybatis.entity.UserRoles">
+        <id property="id" column="user_roles_id" />
+        <result property="userId" column="ur_user_id" />
+        <result property="roleId" column="ur_role_id" />
+        <association property="role" resultMap="rolesResultMap" />
+    </resultMap>
+
+    <resultMap id="rolesResultMap" type="com.study.SpringSecurityMybatis.entity.Role">
+        <id property="id" column="roles_id" />
+        <result property="name" column="role_name" />
+    </resultMap>
+
+    <select id="findByUsername" resultMap="userResultMap">
+        select
+            u.id as user_id,
+            u.username,
+            u.password,
+            u.name,
+            ur.id as user_roles_id,
+            ur.user_id as ur_user_id,
+            ur.role_id as ur_role_id,
+            r.id as role_id,
+            r.name as role_name
+        from
+            user u
+            left outer join user_roles ur on(ur.user_id = u.id)
+            left outer join role r on(r.id = ur.role_id)
+        where
+            u.username = #{username}
+    </select>
+
+    <select id="findByUserId" resultMap="userResultMap">
+        select
+            u.id as user_id,
+            u.username,
+            u.password,
+            u.name,
+            ur.id as user_roles_id,
+            ur.user_id as ur_user_id,
+            ur.role_id as ur_role_id,
+            r.id as role_id,
+            r.name as role_name
+        from
+            user u
+            left outer join user_roles ur on(ur.user_id = u.id)
+            left outer join role r on(r.id = ur.role_id)
+        where
+            u.id = #{id}
     </select>
 </mapper>
